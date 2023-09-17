@@ -1,0 +1,38 @@
+# Ignore virtual environment files (if using venv, pipenv, or similar)
+venv/
+env/
+*.pyc
+
+# Ignore database files (if using SQLite)
+db.sqlite3
+
+# Ignore log files
+*.log
+
+# Ignore generated media files (user-uploaded content)
+media/
+
+# Ignore static files (collected with 'python manage.py collectstatic')
+static/
+
+# Ignore secret settings and sensitive information
+*.secret
+
+# Ignore environment-specific settings
+.env
+
+# Ignore configuration files for popular code editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore local development settings (e.g., settings/local.py)
+settings/local.py
+
+# Ignore package manager directories
+__pycache__/
+node_modules/
+
+# Ignore Migration files
+*/migrations/
