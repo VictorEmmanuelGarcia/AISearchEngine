@@ -6,10 +6,12 @@ import { useContext, useState } from "react";
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleLogin = () => {
         console.log("Logging in with username:", username);
         console.log("Password:", password);
+        navigate("/search");
       };
     
       const handleSignUp = () => {
@@ -32,35 +34,34 @@ const Login = () => {
             <div className="login-container">
                 <form>
                     <div className="input-container">
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+                        <label htmlFor="username">Username:</label>
+                        <input
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
                     </div>
                     <div className="input-container">
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                     </div>
                     <div className="button-container">
-                    <button type="button" onClick={handleLogin}>
-                        Login
-                    </button>
-                    <button type="button" onClick={handleSignUp}>
-                        Don’t have an account? 
-                        Sign up through IPAMS here!
-                    </button>
+                        <button type="button" onClick={handleLogin}>
+                            Login
+                        </button>
+                        <button type="button" onClick={handleSignUp}>
+                            Don’t have an account? 
+                            Sign up through IPAMS here!
+                        </button>
                     </div>
                 </form>
-                </div>
-            <Link to="/search">click</Link>
+            </div>
         </div>
     );
 };
