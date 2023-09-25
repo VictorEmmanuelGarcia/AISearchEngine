@@ -1,0 +1,9 @@
+body {
+    background-color: #19376D;
+}
+
+.title {
+    display: block;
+    justify-content: center;
+    color: white;
+}
