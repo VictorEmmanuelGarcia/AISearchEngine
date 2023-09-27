@@ -19,19 +19,23 @@ const Login = () => {
       };
 
     return (
-        <div>
+        <div className="container">
             <image src="" alt="insert image here"/>
-            <div className="title">
-                <h1>
-                    Narrative Association for Linked Content (NALC) 
-                    for IPAMS (Intellectual Property Asset Management System)
-                </h1>
-                <h4>
-                    © 2022 - 2024 Wildcats Innovation Lab, Cebu Institute of Technology-University
-                    All rights reserved. 
-                </h4>
+            <div className="row align-items-start">
+                <div className="col"></div>
+                <div className="col-6">
+                    <h2>
+                        Narrative Association for Linked Content (NALC) 
+                        for IPAMS <small><i>(Intellectual Property Asset Management System)</i></small>
+                    </h2>
+                    <p>
+                        © 2022 - 2024 Wildcats Innovation Lab, Cebu Institute of Technology-University
+                        All rights reserved. 
+                    </p>
+                </div>
+                <div className="col"/>
             </div>
-            <div className="login-container">
+            <div className="row">
                 <form>
                     <div className="input-container">
                         <label htmlFor="username">Username:</label>
