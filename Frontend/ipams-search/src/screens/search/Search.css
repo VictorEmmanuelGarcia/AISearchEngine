@@ -1,0 +1,15 @@
+.textCenter{
+    color: white;
+    text-align: center;
+}
+
+#cont{
+    margin: auto;
+    margin-top: 250px;
+}
+
+#input{
+    max-width: 800px;
+    height: 70px;
+    margin: auto;
+}
