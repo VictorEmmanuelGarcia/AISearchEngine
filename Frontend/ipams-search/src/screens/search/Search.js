@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Search.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 const Search = () => {
     const [query, setQuery] = useState('');
@@ -64,12 +66,12 @@ const Search = () => {
     ];
 
     return (
-        <div>
+        <div className="container" id="cont">
             {chatHistory.length === 0 && (
                 <div className="title-logo-container">
-                <image src="" alt="insert image here"/>
-                <h1>Narrative Association for Linked Content (NALC)</h1>
-                <h4>Your helpful search buddy for IPAMS.</h4>
+                    <image src="" alt="insert image here"/>
+                    <h1 className="textCenter">Narrative Association for Linked Content (NALC)</h1>
+                    <h4 className="textCenter">Your helpful search buddy for IPAMS.</h4>
                 </div>
             )}
 
@@ -105,15 +107,12 @@ const Search = () => {
                 </div>
                 ))}
             </div>
-
-            <div className="user-input-container">
-                <input
-                type="text"
-                id="query"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                />
-                <button onClick={handleSearch}>Send</button>
+            <br/>
+            <div class="input-group mb-3" id="input">
+                <input type="text" className="form-control" placeholder="Describe what papers you are looking for. Type it in detail! " aria-label="Recipient's username" aria-describedby="button-addon2"/> 
+                <button class="btn btn-primary btn-lg" type="button" id="button-addon2" onClick={handleSearch}>
+                    <FontAwesomeIcon icon={faPaperPlane} />
+                </button>            
             </div>
         </div>
     );
