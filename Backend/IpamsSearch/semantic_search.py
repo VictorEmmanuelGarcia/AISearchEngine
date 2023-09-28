@@ -1,4 +1,5 @@
 # Import necessary libraries
+import os
 from txtai.embeddings import Embeddings
 import transformers
 from django.db.models import Q
@@ -12,32 +13,49 @@ embeddings = Embeddings({
     "path": "sentence-transformers/all-MiniLM-L6-v2"
 })
 
-# Define a function to load or generate embeddings
-def load_or_generate_embeddings():
-    try:
-        with open('embeddings.pickle', 'rb') as file:
-            return pickle.load(file)
-    except FileNotFoundError:
-        # Query the database to retrieve all "Abstract" values from the 'researchpaper' model
-        research_papers = researchpaper.objects.all()
+# # Define a function to load or generate embeddings
+# def load_or_generate_embeddings():
+#     try:
+#         with open('embeddings.pickle', 'rb') as file:
+#             return pickle.load(file)
+#     except FileNotFoundError:
+#         # Query the database to retrieve all "Abstract" values from the 'researchpaper' model
+#         research_papers = researchpaper.objects.all()
 
-        # Extract the "Abstract" values and convert them to a list
-        abstracts = [paper.abstract for paper in research_papers]
+#         # Extract the "Abstract" values and convert them to a list
+#         abstracts = [paper.abstract for paper in research_papers]
 
-        # Index the abstracts
-        embeddings.index(abstracts)
+#         # Index the abstracts
+#         embeddings.index(abstracts)
 
-        # Save the embeddings to a file
-        with open('embeddings.pickle', 'wb') as file:
-            pickle.dump(embeddings, file)
+#         # Save the embeddings to a file
+#         with open('embeddings.pickle', 'wb') as file:
+#             pickle.dump(embeddings, file)
         
-        return embeddings
+#         return embeddings
 
-# Load or generate embeddings
-embeddings = load_or_generate_embeddings()
+# # Load or generate embeddings
+# embeddings = load_or_generate_embeddings()
+
+# def index_data():
+#     # Query the database to retrieve all "Abstract" values from the 'researchpaper' model
+#     research_papers = researchpaper.objects.all()
+
+#     # Extract the "Abstract" values and convert them to a list
+#     abstracts = [paper.abstract for paper in research_papers]
+
+#     # Index the abstracts
+#     embeddings.index(abstracts)
+
+#     # Save the embeddings to a file
+#     embeddings.save('indexed_embeddings')
+        
 
 # Define a function to perform semantic search TXTAI
 def perform_semantic_search(data, query, top_k=5):
+    # Load the embeddings
+    embeddings.load('indexed_embeddings')
+
     # Create an empty list to store the Abstract values
     abstract_values = []
 
@@ -46,9 +64,6 @@ def perform_semantic_search(data, query, top_k=5):
         # Extract the "Abstract" field from each record and append it to the abstract_values list
         abstract_value = record.get("Abstract")
         abstract_values.append(abstract_value)
-
-    # Index the abstract_values
-    embeddings.index(abstract_values)
 
     # Perform semantic search
     res = embeddings.search(query, top_k)
