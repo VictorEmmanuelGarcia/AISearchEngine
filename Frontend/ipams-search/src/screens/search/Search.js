@@ -66,15 +66,21 @@ const Search = () => {
     ];
 
     return (
-        <div className="container" id="cont">
+        <div className="container">
             {chatHistory.length === 0 && (
-                <div className="title-logo-container">
+                <div className="title-logo-container" id="cont">
                     <image src="" alt="insert image here"/>
                     <h1 className="textCenter">Narrative Association for Linked Content (NALC)</h1>
                     <h4 className="textCenter">Your helpful search buddy for IPAMS.</h4>
                 </div>
             )}
-
+            <br/>
+            <div class="input-group mb-3" id="input">
+                <input type="text" className="form-control" placeholder="Describe what papers you are looking for. Type it in detail! " aria-label="Recipient's username" aria-describedby="button-addon2"/> 
+                <button class="btn btn-primary btn-lg" type="button" id="button-addon2" onClick={handleSearch}>
+                    <FontAwesomeIcon icon={faPaperPlane} />
+                </button>            
+            </div>
             {/* Chat container with chat history */}
             <div className="chat-container">
                 {chatHistory.map((message, index) => (
@@ -108,12 +114,6 @@ const Search = () => {
                 ))}
             </div>
             <br/>
-            <div class="input-group mb-3" id="input">
-                <input type="text" className="form-control" placeholder="Describe what papers you are looking for. Type it in detail! " aria-label="Recipient's username" aria-describedby="button-addon2"/> 
-                <button class="btn btn-primary btn-lg" type="button" id="button-addon2" onClick={handleSearch}>
-                    <FontAwesomeIcon icon={faPaperPlane} />
-                </button>            
-            </div>
         </div>
     );
 };
