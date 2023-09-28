@@ -37,35 +37,69 @@ class ResearchPaperListView(generics.ListAPIView):
     queryset = researchpaper.objects.all()
     serializer_class = ResearchPaperSerializer
 
-def search_view(request):
-    # Get the query from the request
-    query = request.GET.get("query", "")
+# def search_view(request):
+#     # Get the query from the request
+#     query = request.GET.get("query", "")
 
-    # Query the database to retrieve all "Abstract" values from the 'researchpaper' model
-    research_papers = researchpaper.objects.all()
+#     # Query the database to retrieve all "Abstract" values from the 'researchpaper' model
+#     research_papers = researchpaper.objects.all()
 
-    # Count the number of elements in the research paper list
-    num_res = len(research_papers)
+#     # Count the number of elements in the research paper list
+#     num_res = len(research_papers)
 
-    # Print the result
-    print("Number of abstracts:", num_res)
+#     # Print the result
+#     print("Number of abstracts:", num_res)
 
-    # Extract the "Abstract" values and convert them to a list of dictionaries
-    abstract_values = [{"Abstract": paper.abstract} for paper in research_papers]
+#     # Extract the "Abstract" values and convert them to a list of dictionaries
+#     abstract_values = [{"Abstract": paper.abstract} for paper in research_papers]
 
-    # Perform semantic search using the "abstract_values" list
-    search_results = perform_semantic_search(abstract_values, query)
+#     # Perform semantic search using the "abstract_values" list
+#     search_results = perform_semantic_search(abstract_values, query)
 
-    # Return the search results as JSON response
-    return JsonResponse([
-        {
-            "title": paper.title,
-            "year": paper.year,
-            "record_type": paper.record_type,
-            "classification": paper.classification,
-            "psc_ed": paper.psc_ed,
-            "author": paper.author,
-            "semantic_score": result  # Include the semantic search score
-        }
-        for result, paper in zip(search_results, research_papers)
-    ], safe=False)
+#     # Return the search results as JSON response
+#     return JsonResponse([
+#         {
+#             "title": paper.title,
+#             "year": paper.year,
+#             "record_type": paper.record_type,
+#             "classification": paper.classification,
+#             "psc_ed": paper.psc_ed,
+#             "author": paper.author,
+#             "semantic_score": result  # Include the semantic search score
+#         }
+#         for result, paper in zip(search_results, research_papers)
+#     ], safe=False)
+
+class SearchView(APIView):
+    def get(self, request):
+        # Get the query from the request
+        query = request.GET.get("query", "")
+
+        # Query the database to retrieve all "Abstract" values from the 'researchpaper' model
+        research_papers = researchpaper.objects.all()
+
+        # Count the number of elements in the research paper list
+        num_res = len(research_papers)
+
+        # Print the result
+        print("Number of abstracts:", num_res)
+
+        # Extract the "Abstract" values and convert them to a list of dictionaries
+        abstract_values = [{"Abstract": paper.abstract} for paper in research_papers]
+
+        # Perform semantic search using the "abstract_values" list
+        search_results = perform_semantic_search(abstract_values, query)
+
+        # Return the search results as JSON response
+        return JsonResponse([
+            {
+                "title": paper.title,
+                "year": paper.year,
+                "record_type": paper.record_type,
+                "classification": paper.classification,
+                "psc_ed": paper.psc_ed,
+                "author": paper.author,
+                "semantic_score": result,  # Include the semantic search score
+            }
+            for result, paper in zip(search_results, research_papers)
+        ], safe=False)
