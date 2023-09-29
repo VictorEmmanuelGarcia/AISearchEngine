@@ -23,39 +23,16 @@ def index_data():
     embeddings.save('indexed_embeddings')
 
 
-# Define a function to perform semantic search TXTAI
+# Define a function to perform semantic search TXTAI using the load embeddings
 def perform_semantic_search(query, top_k=5):
     # Load the embeddings
     embeddings.load('indexed_embeddings')
 
-    # Query the database to retrieve all "Abstract" values from the 'researchpaper' model
-    
-    # # Create an empty list to store the Abstract values
-    # abstract_values = []
-
-    # # Iterate through a dataset of text records
-    # for record in data:
-    #     # Extract the "Abstract" field from each record and append it to the abstract_values list
-    #     abstract_value = record.get("Abstract")
-    #     abstract_values.append(abstract_value)
-
-    # Perform semantic search
+    # Perform the semantic search
     res = embeddings.search(query, top_k)
 
+    # Get the IDs of the results
     result_ids = [result[0] for result in res]
-    # # Create a list of search results
-    # search_results = []
-    # for r in res:
-    #     # Get the record corresponding to the search result
-    #     record = data[r[0]]
 
-    #     # Create a new result dictionary containing all fields of the record
-    #     result = {key: value for key, value in record.items()}
-
-    #     # Add the similarity score to the result dictionary
-    #     result["Similarity"] = r[1]
-
-    #     # Append the result to the search_results list
-    #     search_results.append(result)
-
+    # Return the results in the order of the results
     return researchpaper.objects.filter(id__in=result_ids)
