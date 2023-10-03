@@ -38,17 +38,17 @@ const Search = () => {
         // Perform a query here (replace with your actual query logic)
         axios.get('http://127.0.0.1:8000/search/?query=${query}')
             .then(apiResponse => {
-                const newChatHistory = [
-                    ...chatHistory,
-                    { id: 'user', message: query },
-                    { id: 'bot', message: apiResponse.data },
-                ];
-
                 const updatedResponseData = apiResponse.data.map(item => ({
                     ...item,
                     psc_ed: categoryMappings[item.psc_ed] || item.psc_ed, // Replace if found in mappings, else keep the original value
                 }));
-                  
+
+                const newChatHistory = [
+                    ...chatHistory,
+                    { id: 'user', message: query },
+                    { id: 'bot', message: updatedResponseData },
+                ];
+
                 setResponse(updatedResponseData);
                 setHistory(newChatHistory);
                 setQuery('');
