@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Search.css"
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,22 +13,29 @@ const Search = () => {
     
     const handleSearch = () => {
         // Perform a query here (replace with your actual query logic)
-        const sampleResponse = [
-            { id: 1, name: 'Result 1' },
-            { id: 2, name: 'Result 2' },
-            { id: 3, name: 'Result 3' },
-        ];
+        axios.get('http://127.0.0.1:8000/search/?query=${query}')
+            .then(response => {
+                setResponse(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+        });
 
-        // Update chat history with user query and bot response
-        const newChatHistory = [
-            ...chatHistory,
-            { id: 'user', message: query },
-            { id: 'bot', message: sampleResponse },
-        ];
+        //Update chat history with user query and bot response
+        // const newChatHistory = [
+        //     ...chatHistory,
+        //     { id: 'user', message: query },
+        //     { id: 'bot', message: sampleResponse },
+        // ];
 
-        setResponse(sampleResponse);
-        setHistory(newChatHistory);
+        // setResponse(sampleResponse);
+        // setHistory(newChatHistory);
         setQuery('');
+    };
+
+     // Function to handle input changes and update the state
+    const handleInputChange = (event) => {
+        setQuery(event.target.value);
     };
 
     const chatMessages = [
@@ -47,8 +55,13 @@ const Search = () => {
                 <table>
                 <thead>
                     <tr>
-                    <th>ID</th>
-                    <th>Name</th>
+                    <th>Title</th>
+                    <th>Abstract</th>
+                    <th>Year</th>
+                    <th>Record Type</th>
+                    <th>Authors</th>
+                    <th>PSCED</th>
+                    <th>Classification</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,7 +89,7 @@ const Search = () => {
             )}
             <br/>
             <div class="input-group mb-3" id="input">
-                <input type="text" className="form-control" placeholder="Describe what papers you are looking for. Type it in detail! " aria-label="Recipient's username" aria-describedby="button-addon2"/> 
+                <input type="text" className="form-control" placeholder="Describe what papers you are looking for. Type it in detail! " aria-label="Recipient's username" aria-describedby="button-addon2" value={query} onChange={handleInputChange}/> 
                 <button class="btn btn-primary btn-lg" type="button" id="button-addon2" onClick={handleSearch}>
                     <FontAwesomeIcon icon={faPaperPlane} />
                 </button>            
@@ -93,8 +106,13 @@ const Search = () => {
                         <table>
                         <thead>
                             <tr>
-                            <th>ID</th>
-                            <th>Name</th>
+                                <th>Title</th>
+                                <th>Abstract</th>
+                                <th>Year</th>
+                                <th>Record Type</th>
+                                <th>Authors</th>
+                                <th>PSCED</th>
+                                <th>Classification</th>
                             </tr>
                         </thead>
                         <tbody>
