@@ -24,7 +24,7 @@ def index_data():
 
 
 # Define a function to perform semantic search TXTAI using the load embeddings
-def perform_semantic_search(query, top_k=5):
+def perform_semantic_search(query, top_k=15):
     # Load the embeddings
     embeddings.load('indexed_embeddings')
 
