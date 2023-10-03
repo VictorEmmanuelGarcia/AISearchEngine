@@ -36,7 +36,7 @@ const Search = () => {
 
     const handleSearch = () => {
         // Perform a query here (replace with your actual query logic)
-        axios.get('http://127.0.0.1:8000/search/?query=${query}')
+        axios.get(`http://127.0.0.1:8000/search/?query=${query}`)
             .then(apiResponse => {
                 const updatedResponseData = apiResponse.data.map(item => ({
                     ...item,
