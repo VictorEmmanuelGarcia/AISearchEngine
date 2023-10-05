@@ -18,10 +18,6 @@ embeddings = Embeddings({
     "path": "sentence-transformers/all-MiniLM-L6-v2"
 })
 
-class ResearchPaperListView(generics.ListAPIView):
-    queryset = researchpaper.objects.all()
-    serializer_class = ResearchPaperSerializer
-
 class SearchView(APIView):
     def get(self, request):
         # Get the query from the request
@@ -32,11 +28,41 @@ class SearchView(APIView):
         serializer = ResearchPaperSerializer(search_results, many=True)
         return Response(serializer.data)
 
+# Research Paper Views
+# Get All Research Papers
+class ResearchPaperListView(generics.ListAPIView):
+    queryset = researchpaper.objects.all()
+    serializer_class = ResearchPaperSerializer
+
+# Get Research Paper by ID
+class GetResearchPaperById(APIView):
+    def get(self, request, pk):
+        research_paper = get_object_or_404(researchpaper, pk=pk)
+        serializer = ResearchPaperSerializer(research_paper)
+        return Response(serializer.data)
+
 # Bookmark Views
 # Create Bookmark View
 class CreateBookmarkView(generics.CreateAPIView):
     queryset = Bookmark.objects.prefetch_related('research_papers')
     serializer_class = BookmarkSerializer
+
+    def perform_create(self, serializer):
+        # Get the user from the request if available
+        user = self.request.user
+
+        # Check if a bookmark with the same name already exists for the current user or if user is not specified
+        bookmark_name = serializer.validate_data.get('name')
+        
+        existing_bookmark = Bookmark.objects.filter(name=bookmark_name, user=user).first()
+
+        if existing_bookmark:
+            # If a bookmark with the same name exists for the current user, return an error response
+            response_data = {'detail': 'Bookmark with this name already exists for this user.'}
+            return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+
+        # If the bookmark name is unique for the current user or user is not specified, create the bookmark
+        serializer.save(user=user)
 
 # Get Bookmarks View
 class ListBookmarksView(generics.ListAPIView):
