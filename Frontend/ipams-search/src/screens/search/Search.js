@@ -87,31 +87,33 @@ const Search = () => {
                     {message.id === 'bot' ? (
                     <div>
                         {/* Bot's response message */}
-                        <p>Here are the search results:</p>
+                        <p className="textCenter">Here are the search results:</p>
                         {/* Display the tabular response */}
-                        <table>
+                        <table className="table">
                         <thead>
                             <tr>
                                 <th>Title</th>
                                 <th>Abstract</th>
                                 <th>Year</th>
                                 <th>PSCED</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {message.message.map((item) => (
                             <tr key={item.id}>
                                 <td>{item.title}</td>
-                                <td>{item.abstract}</td>
+                                <td>{item.abstract.slice(0, 250)}...</td>
                                 <td>{item.year}</td>
                                 <td>{item.psc_ed}</td>
+                                <td>View</td>
                             </tr>
                             ))}
                         </tbody>
                         </table>
                     </div>
                     ) : (
-                    message.message
+                    <p className="textCenter">Your Search: {message.message}</p>
                     )}
                 </div>
                 ))}
