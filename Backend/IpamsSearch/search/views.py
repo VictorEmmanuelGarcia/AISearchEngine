@@ -1,41 +1,22 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import SearchQuerySerializer, SearchResultSerializer
 from txtai.embeddings import Embeddings
-from .models import researchpaper
-from rest_framework import generics
-from .serializers import ResearchPaperSerializer
+from bookmark_function import create_bookmark
+from .models import Bookmark, BookmarkRP, researchpaper
+from rest_framework import generics, viewsets, status, permissions
+from .serializers import BookmarkRPSerializer, BookmarkSerializer, ResearchPaperSerializer
 from semantic_search import perform_semantic_search
 from django.http import JsonResponse
+from rest_framework.decorators import action
+from django.contrib.auth.models import User
+from rest_framework.permissions import AllowAny
+from django.shortcuts import get_object_or_404
 
+# Semantic Search Views
 embeddings = Embeddings({
     "path": "sentence-transformers/all-MiniLM-L6-v2"
 })
-
-class SemanticSearchView(APIView):
-    def post(self, request):
-        serializer = SearchQuerySerializer(data=request.data)
-        if serializer.is_valid():
-            query = serializer.validated_data['query']
-
-            # Perform semantic search using txtai library
-            results = embeddings.search(query, 5)  # Adjust the number of results as needed
-
-            search_results = []
-            for index, similarity in results:
-                paper = researchpaper.objects.get(id=index + 1)  # Assuming your model has auto-incremented IDs
-                serializer = SearchResultSerializer(paper, context={'similarity': similarity})
-                search_results.append(serializer.data)
-
-            return Response(search_results)
-        else:
-            return Response(serializer.errors, status=400)
-
-
-class ResearchPaperListView(generics.ListAPIView):
-    queryset = researchpaper.objects.all()
-    serializer_class = ResearchPaperSerializer
 
 class SearchView(APIView):
     def get(self, request):
@@ -46,3 +27,51 @@ class SearchView(APIView):
 
         serializer = ResearchPaperSerializer(search_results, many=True)
         return Response(serializer.data)
+
+# Research Paper Views
+# Get All Research Papers
+class ResearchPaperListView(generics.ListAPIView):
+    queryset = researchpaper.objects.all()
+    serializer_class = ResearchPaperSerializer
+
+# Get Research Paper by ID
+class GetResearchPaperById(APIView):
+    def get(self, request, pk):
+        research_paper = get_object_or_404(researchpaper, pk=pk)
+        serializer = ResearchPaperSerializer(research_paper)
+        return Response(serializer.data)
+
+# Bookmark Views
+# Create Bookmark View
+class CreateBookmarkView(generics.CreateAPIView):
+    queryset = Bookmark.objects.prefetch_related('research_papers')
+    serializer_class = BookmarkSerializer
+
+    def perform_create(self, serializer):
+        # Get the user from the request if available
+        user = self.request.user
+
+        # Check if a bookmark with the same name already exists for the current user or if user is not specified
+        bookmark_name = serializer.validate_data.get('name')
+        
+        existing_bookmark = Bookmark.objects.filter(name=bookmark_name, user=user).first()
+
+        if existing_bookmark:
+            # If a bookmark with the same name exists for the current user, return an error response
+            response_data = {'detail': 'Bookmark with this name already exists for this user.'}
+            return Response(response_data, status=status.HTTP_400_BAD_REQUEST)
+
+        # If the bookmark name is unique for the current user or user is not specified, create the bookmark
+        serializer.save(user=user)
+
+# Get Bookmarks View
+class ListBookmarksView(generics.ListAPIView):
+    serializer_class = BookmarkSerializer
+
+    def get_queryset(self):
+        # Retrieve the user ID from the URL parameter (e.g., /list-bookmarks/<user_id>/)
+        user_id = self.kwargs['user_id']
+
+        # Query the database to get all bookmarks for the specific user
+        queryset = Bookmark.objects.filter(user_id=user_id)
+        return queryset
