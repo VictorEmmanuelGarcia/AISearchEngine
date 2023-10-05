@@ -27,7 +27,7 @@ class researchpaper(models.Model):
     # Bookmark Model
 class Bookmark(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)  # Assuming you're using Django's User model
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique = True)
     research_papers = models.ManyToManyField(researchpaper, through='BookmarkRP')
 
     def __str__(self):
