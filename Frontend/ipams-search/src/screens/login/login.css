@@ -1,9 +1,25 @@
 body {
     background-color: #19376D;
+    margin: 100px;
 }
 
 .title {
     display: block;
     justify-content: center;
     color: white;
+    text-align: center;
 }
+
+.text-input{
+    max-width: 650px;
+    width: 100%;
+}
+
+.button-container button{
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.small-font-button {
+    font-size: 12px;
+  }
