@@ -9,6 +9,7 @@ const Search = () => {
     const [query, setQuery] = useState('');
     const [response, setResponse] = useState([]);
     const [chatHistory, setHistory] = useState([]);
+    const [indivPaper, setIndivPaper] = useState({});
 
     const categoryMappings = {
         "14": "Education Science and Teacher Training",
@@ -63,6 +64,19 @@ const Search = () => {
         setQuery(event.target.value);
     };
 
+    const openModal = (id) => {      
+        // Make the Axios GET request
+        axios.get(`http://127.0.0.1:8000/research-papers/${id}/`)
+          .then((response) => {
+            const data = response.data;
+            setIndivPaper(data);
+            console.log(indivPaper);
+          })
+          .catch((error) => {
+            // Handle any errors that occur during the GET request
+            console.error('Error:', error);
+          });
+      };
 
     return (
         <div className="container">
@@ -106,11 +120,44 @@ const Search = () => {
                                 <td>{item.abstract.slice(0, 250)}...</td>
                                 <td>{item.year}</td>
                                 <td>{item.psc_ed}</td>
-                                <td>View</td>
+                                <td>
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal"  onClick={() => openModal(item.id)}>
+                                    View
+                                </button>
+                                </td>
                             </tr>
                             ))}
                         </tbody>
                         </table>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">{indivPaper.title}</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div className="row">
+                                        <div className="col">
+                                            <p class="fs-6">{indivPaper.author}</p>
+                                        </div>
+                                        <div className="col">
+                                            <p class="fs-6">{categoryMappings[indivPaper.psc_ed] || indivPaper.psc_ed}</p>
+                                        </div>
+                                        <div className="col">
+                                            <p class="fs-6">{indivPaper.year}</p>
+                                        </div>
+                                    </div>
+                                    <p class="fs-6">Abstract:</p>
+                                    <div class="d-flex justify-content-start">{indivPaper.abstract}</div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary">Save Bookmark</button>
+                                    <button type="button" class="btn btn-primary">Request Access</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     ) : (
                     <p className="textCenter">Your Search: {message.message}</p>

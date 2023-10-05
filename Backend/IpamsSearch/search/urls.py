@@ -1,6 +1,5 @@
-from django.urls import path, include
+from django.urls import path
 from .views import SearchView, ResearchPaperListView, CreateBookmarkView, ListBookmarksView, GetResearchPaperById
-
 
 urlpatterns = [
     # Semantic Search URLs

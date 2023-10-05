@@ -4,6 +4,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./screens/login/Login";
 import Search from "./screens/search/Search";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function App() {
   return (
