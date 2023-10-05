@@ -19,48 +19,50 @@ const Login = () => {
       };
 
     return (
-        <div className="container">
-            <image src="" alt="insert image here"/>
-            <div className="row align-items-start">
+        <div className="container align-items-center">
+            <div className="row align-items-start mb-4">
+                <image src="" alt="insert image here"/>
                 <div className="col"></div>
                 <div className="col-6">
-                    <h2>
+                    <h2 className="title">
                         Narrative Association for Linked Content (NALC) 
                         for IPAMS <small><i>(Intellectual Property Asset Management System)</i></small>
                     </h2>
-                    <p>
+                    <p className="title">
                         © 2022 - 2024 Wildcats Innovation Lab, Cebu Institute of Technology-University
                         All rights reserved. 
                     </p>
                 </div>
                 <div className="col"/>
             </div>
-            <div className="row">
-                <form>
-                    <div className="input-container">
-                        <label htmlFor="username">Username:</label>
+            <div className="row justify-content-center">
+                <form className="col-md-6">
+                    <div className="input-container text-input mb-4">
                         <input
-                            type="text"
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                        type="text"
+                        id="username"
+                        className="form-control rounded-pill"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Username"
                         />
                     </div>
-                    <div className="input-container">
-                        <label htmlFor="password">Password:</label>
+                    <div className="input-container text-input mb-4">
                         <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        id="password"
+                        className="form-control rounded-pill"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
                         />
                     </div>
-                    <div className="button-container">
-                        <button type="button" onClick={handleLogin}>
+                    <div className="button-container d-flex justify-content-between mt-6">
+                        <button type="button" className="btn btn-warning rounded-pill" onClick={handleLogin}>
                             Login
                         </button>
-                        <button type="button" onClick={handleSignUp}>
-                            Don’t have an account? 
+                        <button type="button" className="btn btn-light rounded-pill small-font-button" onClick={handleSignUp}>
+                            Don’t have an account? <br/>
                             Sign up through IPAMS here!
                         </button>
                     </div>
