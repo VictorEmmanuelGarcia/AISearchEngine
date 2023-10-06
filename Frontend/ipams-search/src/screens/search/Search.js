@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Search.css"
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane , faBookmark , faLockOpen} from '@fortawesome/free-solid-svg-icons';
 
 const Search = () => {
     const [query, setQuery] = useState('');
@@ -130,7 +130,7 @@ const Search = () => {
                         </tbody>
                         </table>
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                 <div class="modal-header">
                                     <h1 class="modal-title fs-5" id="exampleModalLabel">{indivPaper.title}</h1>
@@ -139,21 +139,27 @@ const Search = () => {
                                 <div class="modal-body">
                                     <div className="row">
                                         <div className="col">
-                                            <p class="fs-6">{indivPaper.author}</p>
+                                            <p class="fs-6">Author: {indivPaper.author}</p>
+                                        </div>
+                                        <div className="col-6">
+                                            <p class="fs-6">PSCED: {categoryMappings[indivPaper.psc_ed] || indivPaper.psc_ed}</p>
                                         </div>
                                         <div className="col">
-                                            <p class="fs-6">{categoryMappings[indivPaper.psc_ed] || indivPaper.psc_ed}</p>
-                                        </div>
-                                        <div className="col">
-                                            <p class="fs-6">{indivPaper.year}</p>
+                                            <p class="fs-6">Year: {indivPaper.year}</p>
                                         </div>
                                     </div>
                                     <p class="fs-6">Abstract:</p>
                                     <div class="d-flex justify-content-start">{indivPaper.abstract}</div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary">Save Bookmark</button>
-                                    <button type="button" class="btn btn-primary">Request Access</button>
+                                    <button type="button" class="btn">
+                                        <FontAwesomeIcon icon={faBookmark} style={{ marginRight: '5px', color: "#ffea00" }} />
+                                        Bookmark Paper
+                                    </button>
+                                    <button type="button" class="btn">
+                                        <FontAwesomeIcon icon={faLockOpen} style={{marginRight: '5px', color: "#ffea00",}} />
+                                        Request Access
+                                    </button>
                                 </div>
                                 </div>
                             </div>
