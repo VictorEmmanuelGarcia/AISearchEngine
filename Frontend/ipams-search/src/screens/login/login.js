@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css"
+import "./login.css"
 import { useContext, useState } from "react";
 
 const Login = () => {
@@ -19,7 +19,7 @@ const Login = () => {
       };
 
     return (
-        <div className="container align-items-center">
+        <div className="container align-items-center login-container">
             <div className="row align-items-start mb-4">
                 <image src="" alt="insert image here"/>
                 <div className="col"></div>
