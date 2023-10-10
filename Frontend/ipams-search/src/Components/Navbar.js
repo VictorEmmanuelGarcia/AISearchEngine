@@ -8,6 +8,7 @@ class Navbar extends React.Component {
     return (
         <nav class="navbar fixed-top navi">
             <div class="container-fluid navi">
+                <a class="navbar-brand whiteTxt" href="#"></a>
                 <ul class="nav justify-content-end">
                     {/* <div class="dropdown">
                         <a class="btn btn-lg dropdown-toggle whiteTxt" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
