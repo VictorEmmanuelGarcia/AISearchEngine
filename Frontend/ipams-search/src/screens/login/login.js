@@ -1,25 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css"
-import { useContext, useState } from "react";
+import "./login.css";
+import axios from "axios"; // Import Axios for making API requests
 
 const Login = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-    const handleLogin = () => {
-        console.log("Logging in with username:", username);
-        console.log("Password:", password);
-        navigate("/search");
-      };
-    
-      const handleSignUp = () => {
-        console.log("Sign up button clicked");
-      };
+  const handleLogin = async () => {
+    try {
+      // Make a POST request to obtain an authentication token
+      const response = await axios.post("http://127.0.0.1:8000/user/obtain-auth-token/", {
+        username: username,
+        password: password,
+      });
+
+      const token = response.data.token;
+
+      // Store the token securely, e.g., in local storage or state management
+      // You can use a library like Redux or React Context for state management.
+
+      // Redirect to the search page or any other authenticated route
+      navigate("/search");
+    } catch (error) {
+      // Handle login errors, e.g., display an error message
+      console.error("Login failed:", error);
+    }
+  };
+
+  const handleSignUp = () => {
+    console.log("Sign up button clicked");
+  };
+
 
     return (
-        <div className="container align-items-center">
+        <div className="container align-items-center login-container">
             <div className="row align-items-start mb-4">
                 <image src="" alt="insert image here"/>
                 <div className="col"></div>
