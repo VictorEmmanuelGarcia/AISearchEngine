@@ -64,7 +64,7 @@ class CreateBookmarkView(generics.CreateAPIView):
         # If the bookmark name is unique for the current user or user is not specified, create the bookmark
         serializer.save(user=user)
 
-# Get Bookmarks View
+# Get Bookmarks by ID View
 class ListBookmarksView(generics.ListAPIView):
     serializer_class = BookmarkSerializer
 
@@ -75,3 +75,38 @@ class ListBookmarksView(generics.ListAPIView):
         # Query the database to get all bookmarks for the specific user
         queryset = Bookmark.objects.filter(user_id=user_id)
         return queryset
+    
+# Update Bookmark View
+class BookmarkViewSet(viewsets.ModelViewSet):
+    queryset = Bookmark.objects.all()
+    serializer_class = BookmarkSerializer
+
+    def updateBookmarkName(self, request, *args, **kwargs):
+        bookmark = self.get_object()
+        new_name = request.data.get('new_name')
+
+        if new_name:
+            bookmark.name = new_name
+            bookmark.save()
+            return Response({'message': 'Bookmark name updated successfully'})
+        else:
+            return Response({'message': 'New name not provided'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=False, methods=['get'])
+    def getListOfBookmarks(self, request):
+        # Retrieve the bookmarks for the current user
+        user = self.request.user
+        bookmarks = Bookmark.objects.filter(user=user)
+        serializer = BookmarkSerializer(bookmarks, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=True, methods=['delete'])
+    def deleteBookmark(self, request, pk=None):
+        bookmark = self.get_object()
+
+        # Ensure the user is the owner of the bookmark
+        if bookmark.user == self.request.user:
+            bookmark.delete()
+            return Response({'message': 'Bookmark deleted successfully'})
+        else:
+            return Response({'message': 'You do not have permission to delete this bookmark'}, status=status.HTTP_403_FORBIDDEN)
