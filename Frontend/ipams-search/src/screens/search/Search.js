@@ -36,33 +36,33 @@ const Search = () => {
     }
 
     const handleSearch = () => {
-        // Perform a query here (replace with your actual query logic)
-        axios.get(`http://127.0.0.1:8000/search/?query=${query}`)
-            .then(apiResponse => {
-                const updatedResponseData = apiResponse.data.map(item => ({
-                    ...item,
-                    psc_ed: categoryMappings[item.psc_ed] || item.psc_ed, // Replace if found in mappings, else keep the original value
-                }));
+        // Clear previous chat history and response data
+        setHistory([]);
+        setResponse(null);
 
-                const newChatHistory = [
-                    ...chatHistory,
-                    { id: 'user', message: query },
-                    { id: 'bot', message: updatedResponseData },
-                ];
-
-                setResponse(updatedResponseData);
-                setHistory(newChatHistory);
-                setQuery('');
-            })
-            .catch(error => {
-                console.error(error);
-        });
-    };
-
-     // Function to handle input changes and update the state
-    const handleInputChange = (event) => {
-        setQuery(event.target.value);
-    };
+        // Perform a new query here (replace with your actual query logic)
+        axios
+          .get(`http://127.0.0.1:8000/search/?query=${query}`)
+          .then((apiResponse) => {
+            const updatedResponseData = apiResponse.data.map((item) => ({
+              ...item,
+              psc_ed: categoryMappings[item.psc_ed] || item.psc_ed, // Replace if found in mappings, else keep the original value
+            }));
+      
+            const newChatHistory = [
+              { id: 'user', message: query },
+              { id: 'bot', message: updatedResponseData },
+            ];
+      
+            setResponse(updatedResponseData);
+            setHistory(newChatHistory);
+            setQuery('');
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      };
+      
 
     const openModal = (id) => {      
         // Make the Axios GET request
@@ -79,7 +79,7 @@ const Search = () => {
       };
 
     return (
-        <div className="container">
+        <div className="container cont">
             {chatHistory.length === 0 && (
                 <div className="title-logo-container" id="cont">
                     <image src="" alt="insert image here"/>
@@ -89,7 +89,7 @@ const Search = () => {
             )}
             <br/>
             <div class="input-group mb-3" id="input">
-                <input type="text" className="form-control" placeholder="Describe what papers you are looking for. Type it in detail! " aria-label="Recipient's username" aria-describedby="button-addon2" value={query} onChange={handleInputChange}/> 
+                <input type="text" className="form-control" placeholder="Describe what papers you are looking for. Type it in detail! " aria-label="Recipient's username" aria-describedby="button-addon2" onChange={ (e) => setQuery(e.target.value) }/> 
                 <button class="btn btn-primary btn-lg" type="button" id="button-addon2" onClick={handleSearch}>
                     <FontAwesomeIcon icon={faPaperPlane} />
                 </button>            
