@@ -1,0 +1,28 @@
+body {
+    background-color: #19376D;
+}
+
+.login-container {
+    margin: 0 auto;
+}
+
+.title {
+    display: block;
+    justify-content: center;
+    color: black;
+    text-align: center;
+}
+
+.text-input{
+    max-width: 650px;
+    width: 100%;
+}
+
+.button-container button{
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.small-font-button {
+    font-size: 12px;
+  }
