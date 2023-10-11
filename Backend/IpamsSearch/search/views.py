@@ -100,4 +100,13 @@ class BookmarkViewSet(viewsets.ModelViewSet):
         serializer = BookmarkSerializer(bookmarks, many=True)
         return Response(serializer.data)
     
-    
+    @action(detail=True, methods=['delete'])
+    def deleteBookmark(self, request, pk=None):
+        bookmark = self.get_object()
+
+        # Ensure the user is the owner of the bookmark
+        if bookmark.user == self.request.user:
+            bookmark.delete()
+            return Response({'message': 'Bookmark deleted successfully'})
+        else:
+            return Response({'message': 'You do not have permission to delete this bookmark'}, status=status.HTTP_403_FORBIDDEN)
