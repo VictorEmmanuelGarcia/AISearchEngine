@@ -39,13 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'search',
+    'corsheaders',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware', 
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -78,13 +82,20 @@ WSGI_APPLICATION = 'IpamsSearch.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'your_database_name',      # Replace with your database name
-        'USER': 'your_mysql_username',     # Replace with your MySQL username
-        'PASSWORD': 'your_mysql_password', # Replace with your MySQL password
-        'HOST': '127.0.0.1',              # Set the host to your MySQL server (localhost)
-        'PORT': '3306',                   # MySQL default port
+        'NAME': 'ipams',      # Replace with your database name
+        'USER': 'root',     # Replace with your MySQL username
+        'PASSWORD': '', # Replace with your MySQL password
+        'HOST': 'localhost',              # Set the host to your MySQL server (localhost)
+        'PORT': '3306',     # MySQL default port
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+        },
     }
 }
+
+# Specify a custom index length for the auth token model
+AUTH_TOKEN_INDEX_TABLESPACE = ''
 
 
 # Password validation
@@ -127,3 +138,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # Add any other authentication backends if needed
+]

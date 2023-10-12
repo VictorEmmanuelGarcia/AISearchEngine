@@ -1,5 +1,6 @@
-from django.urls import path
-from .views import SearchView, ResearchPaperListView, CreateBookmarkView, ListBookmarksView, GetResearchPaperById
+from django.urls import path, include
+from .views import SearchView, ResearchPaperListView, CreateBookmarkView, ListBookmarksView, GetResearchPaperById, BookmarkViewSet
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     # Semantic Search URLs
@@ -12,4 +13,16 @@ urlpatterns = [
     # Bookmark URLs
     path('create-bookmark/', CreateBookmarkView.as_view(), name='create-bookmark'),
     path('list-bookmarks/<int:user_id>/', ListBookmarksView.as_view(), name='list-bookmarks'),
+    path('bookmarks/', BookmarkViewSet.as_view({'get': 'list'}), name='bookmarks'),
+    path('bookmarks/list/', BookmarkViewSet.as_view({'get': 'getListOfBookmarks'}), name='list-of-bookmarks'),
+    path('bookmarks/<int:pk>/delete/', BookmarkViewSet.as_view({'delete': 'deleteBookmark'}), name='delete-bookmark'),
+]
+
+# User URLs with a separate namespace
+user_urls = [
+    path('obtain-auth-token/', obtain_auth_token, name='obtain-auth-token'),
+]
+
+urlpatterns += [
+    path('user/', include(user_urls)),
 ]
