@@ -1,41 +1,55 @@
-import React from 'react';
+import React , {useState} from 'react';
 import "./Navbar.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import Login from '../screens/login/login';
 
-class Navbar extends React.Component {
-  render() {
+
+function Navbar() {
+    const [showModal, setShowModal] = useState(false);
+
+    const handleOpenLoginModal = () => {
+        setShowModal(true);
+      };
+    
+      const handleCloseLoginModal = () => {
+        setShowModal(false);
+      };
+
     return (
-        <nav class="navbar fixed-top navi">
-            <div class="container-fluid navi">
-                <a class="navbar-brand whiteTxt" href="#"></a>
-                <ul class="nav justify-content-end">
-                    {/* <div class="dropdown">
-                        <a class="btn btn-lg dropdown-toggle whiteTxt" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            John Doe
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Bookmark Papers</a></li>
-                            <li><hr class="dropdown-divider"/></li>
-                            <li><a class="dropdown-item" href="#">Login || Logout</a></li>
-                        </ul>
-                    </div> */}
-                    <li class="nav-item">
-                        <button type="button" class="btn whiteTxt">
-                            <FontAwesomeIcon icon={faBookmark} size='xl' style={{ marginRight: '5px', color: "#fecc00" }} />
-                            Bookmark Paper
+        <>
+            <nav class="navbar fixed-top navi">
+                <div class="container-fluid navi">
+                    <a class="navbar-brand whiteTxt" href="#"></a>
+                    <ul class="nav justify-content-end">
+                        <li class="nav-item">
+                            <button type="button" class="btn whiteTxt">
+                                <FontAwesomeIcon icon={faBookmark} size='xl' style={{ marginRight: '5px', color: "#fecc00" }} />
+                                Bookmark Paper
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                        <button type="button" class="btn whiteTxt" onClick={handleOpenLoginModal}>
+                            Sign In
                         </button>
-                    </li>
-                    <li class="nav-item">
-                        <button type="button" class="btn whiteTxt">
-                            Login || Logout
-                        </button>
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav> 
+            <div className={`modal${showModal ? ' show' : ''}`} tabIndex="-1" style={{ display: showModal ? 'block' : 'none' }}>
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-fullscreen-xxl-down">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div className='position-relative'>
+                                <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close" onClick={handleCloseLoginModal}></button>
+                            </div>
+                            <Login handleCloseLoginModal={handleCloseLoginModal}/>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </nav>    
+        </>   
     );
-  }
 }
 
 export default Navbar;

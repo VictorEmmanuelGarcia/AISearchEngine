@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
-import axios from "axios"; // Import Axios for making API requests
+import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser , faLock} from '@fortawesome/free-solid-svg-icons';
 
-const Login = () => {
+const Login = ({ handleCloseLoginModal }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -21,8 +23,8 @@ const Login = () => {
       // Store the token securely, e.g., in local storage or state management
       // You can use a library like Redux or React Context for state management.
 
-      // Redirect to the search page or any other authenticated route
-      navigate("/search");
+      // Close the modal and show Search
+      handleCloseLoginModal();
     } catch (error) {
       // Handle login errors, e.g., display an error message
       console.error("Login failed:", error);
@@ -35,54 +37,57 @@ const Login = () => {
 
 
     return (
-        <div className="container align-items-center login-container">
-            <div className="row align-items-start mb-4">
-                <image src="" alt="insert image here"/>
-                <div className="col"></div>
-                <div className="col-6">
-                    <h2 className="title">
-                        Narrative Association for Linked Content (NALC) 
-                        for IPAMS <small><i>(Intellectual Property Asset Management System)</i></small>
-                    </h2>
-                    <p className="title">
-                        © 2022 - 2024 Wildcats Innovation Lab, Cebu Institute of Technology-University
-                        All rights reserved. 
-                    </p>
-                </div>
-                <div className="col"/>
-            </div>
+        <div className="container align-items-center login-container">               
             <div className="row justify-content-center">
-                <form className="col-md-6">
-                    <div className="input-container text-input mb-4">
-                        <input
-                        type="text"
-                        id="username"
-                        className="form-control rounded-pill"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Username"
-                        />
-                    </div>
-                    <div className="input-container text-input mb-4">
-                        <input
-                        type="password"
-                        id="password"
-                        className="form-control rounded-pill"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
-                        />
-                    </div>
-                    <div className="button-container d-flex justify-content-between mt-6">
-                        <button type="button" className="btn btn-warning rounded-pill" onClick={handleLogin}>
-                            Login
-                        </button>
-                        <button type="button" className="btn btn-light rounded-pill small-font-button" onClick={handleSignUp}>
-                            Don’t have an account? <br/>
-                            Sign up through IPAMS here!
-                        </button>
-                    </div>
-                </form>
+              <p className="fs-2 text-center">Sign In</p>
+              <form className="col-md-6">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">
+                    <FontAwesomeIcon icon={faUser} />  
+                  </span>
+                  <input
+                    type="text"
+                    id="username"
+                    className="form-control"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Username"
+                  />
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">
+                    <FontAwesomeIcon icon={faLock} />
+                  </span>
+                  <input
+                    type="password"
+                    id="password"
+                    className="form-control"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                  />
+                </div>
+                <div className="row">
+                  <div className="col"/>
+                  <div className="col-6 d-grid gap-2">
+                    <button type="button" className="btn btn-warning btn-lg" onClick={handleLogin}>
+                      Login
+                    </button>
+                  </div>
+                  <div className="col"/>
+                </div>
+                <br/>
+                <div className="row">
+                  <div className="col"/>
+                  <div className="col-6">
+                    <span>Don’t have an account?</span>
+                    <a class="btn btn-secondary" href="#" role="button">
+                      Sign up through IPAMS here!
+                    </a>
+                  </div>
+                  <div className="col"/>
+                </div>
+              </form>
             </div>
         </div>
     );

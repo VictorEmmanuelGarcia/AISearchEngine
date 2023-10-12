@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './home.css';
-import Login from '../login/login';
+import Search from '../search/Search';
 
 function Home() {
     const [showLoginModal, setShowLoginModal] = useState(false);
@@ -22,11 +22,8 @@ function Home() {
 
     return (
         <div className="home-container">
-            <button className="sign-in-button" onClick={handleOpenLoginModal}>
-                Sign In
-            </button>
             <div className="center-content">
-                <h1 className="title">Narrative Association for Linked Content (NALC)</h1>
+                {/* <h1 className="title">Narrative Association for Linked Content (NALC)</h1>
                 <h4 className="subtitle">Stand on the shoulders of giants.</h4>
                 <div className="search-container">
                     <input
@@ -35,19 +32,10 @@ function Home() {
                     />
                     <button className="search-button">
                         Search
-                    </button>
-                </div>
+                    </button> 
+                </div> */}
+                <Search/>
             </div>
-            {showLoginModal && (
-                <div className="modal-overlay" onClick={handleOverlayClick}>
-                    <div className="login-modal">
-                        <span className="close" onClick={handleCloseLoginModal}>
-                            &times;
-                        </span>
-                        <Login />
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
