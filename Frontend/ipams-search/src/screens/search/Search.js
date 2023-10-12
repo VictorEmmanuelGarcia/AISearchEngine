@@ -90,7 +90,7 @@ const Search = () => {
             <br/>
             <div class="input-group mb-3" id="input">
                 <input type="text" className="form-control" placeholder="Describe what papers you are looking for. Type it in detail! " aria-label="Recipient's username" aria-describedby="button-addon2" onChange={ (e) => setQuery(e.target.value) }/> 
-                <button class="btn btn-primary btn-lg" type="button" id="button-addon2" onClick={handleSearch}>
+                <button class="btn btn-warning btn-lg" type="button" id="button-addon2" onClick={handleSearch}>
                     <FontAwesomeIcon icon={faPaperPlane} />
                 </button>            
             </div>

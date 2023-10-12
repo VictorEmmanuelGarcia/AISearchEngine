@@ -22,7 +22,7 @@ class Navbar extends React.Component {
                     </div> */}
                     <li class="nav-item">
                         <button type="button" class="btn whiteTxt">
-                            <FontAwesomeIcon icon={faBookmark} size='xl' style={{ marginRight: '5px', color: "#ffea00" }} />
+                            <FontAwesomeIcon icon={faBookmark} size='xl' style={{ marginRight: '5px', color: "#fecc00" }} />
                             Bookmark Paper
                         </button>
                     </li>

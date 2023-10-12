@@ -1,12 +1,13 @@
 body {
-    background-color: #19376D;
+    background-color: #9c7b16;
     margin: auto;
+    margin-top: 150px;
 }
 
 .title {
     display: block;
     justify-content: center;
-    color: white;
+    color: #ffffff;
     text-align: center;
 }
 
