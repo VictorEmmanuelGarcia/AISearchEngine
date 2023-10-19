@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Search from "./screens/search/Search";
 import Home from "./screens/home/home";
-import Navbar from './Components/Navbar';
+import Navbar from './components/Navbar';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 

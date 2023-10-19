@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Search.css"
+import Filter from "../../components/filter/Filter";
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane , faBookmark , faLockOpen} from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +11,12 @@ const Search = () => {
     const [response, setResponse] = useState([]);
     const [chatHistory, setHistory] = useState([]);
     const [indivPaper, setIndivPaper] = useState({});
+    const [filters, setFilters] = useState({
+        fieldsOfStudy: [],
+        startYear: null,
+        endYear: null,
+        recordTypes: [],
+    });
 
     const categoryMappings = {
         "14": "Education Science and Teacher Training",
@@ -78,6 +85,49 @@ const Search = () => {
           });
       };
 
+    // Function to handle filter changes
+    const handleFilterChange = (newFilters) => {
+        setFilters(newFilters);
+
+        const filteredData = applyFiltersToData(response, newFilters);
+        setHistory(filteredData);
+    };
+
+    const applyFiltersToData = (data, filters) => {
+        // Destructure the filter options
+        const { selectedFields, startDate, endDate, selectedRecordTypes } = filters;
+
+        // Filter the data based on selected fields of study
+        const filteredData = data.filter((item) => {
+            if (selectedFields.length === 0 || selectedFields.includes(item.psc_ed)) {
+                return true;
+            }
+            return false;
+        });
+
+        // Filter the data based on the date range
+        const startDateObj = startDate ? new Date(startDate) : null;
+        const endDateObj = endDate ? new Date(endDate) : null;
+
+        const filteredDataByDate = filteredData.filter((item) => {
+            const itemDate = new Date(item.year);
+            if ((!startDateObj || itemDate >= startDateObj) && (!endDateObj || itemDate <= endDateObj)) {
+                return true;
+            }
+            return false;
+        });
+
+        // Filter the data based on selected record types
+        const filteredDataByRecordType = filteredDataByDate.filter((item) => {
+            if (selectedRecordTypes.length === 0 || selectedRecordTypes.includes(item.record_type)) {
+                return true;
+            }
+            return false;
+        });
+
+        return filteredDataByRecordType;
+    };
+
     return (
         <div className="container cont">
             {chatHistory.length === 0 && (
@@ -94,6 +144,10 @@ const Search = () => {
                     <FontAwesomeIcon icon={faPaperPlane} />
                 </button>            
             </div>
+            <Filter
+                filters={filters}
+                onFilterChange={handleFilterChange}
+            />
             {/* Chat container with chat history */}
             <div className="chat-container">
                 {chatHistory.map((message, index) => (
