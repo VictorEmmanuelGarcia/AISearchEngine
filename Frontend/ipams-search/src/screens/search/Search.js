@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Search.css"
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane , faBookmark , faLockOpen} from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane , faBookmark , faLockOpen , faFolderPlus} from '@fortawesome/free-solid-svg-icons';
 
 const Search = () => {
     const [query, setQuery] = useState('');
@@ -137,6 +137,43 @@ const Search = () => {
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Bookmark</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+                                            <div className="row">
+                                                <div className="col">
+                                                    Choose Folders
+                                                </div>
+                                                <div className="col">
+                                                    <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                        <FontAwesomeIcon icon={faFolderPlus} style={{ marginRight: '5px', color: "#ffea00" }} />
+                                                        Add New Folder
+                                                    </button>
+                                                </div>
+                                                <div class="collapse" id="collapseExample">
+                                                    <div class="card card-body">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="text" class="form-control" id="floatingInput" placeholder="Enter Folder Name"/>
+                                                            <label for="floatingInput">Folder Name</label>
+                                                        </div>
+                                                        <button class="btn btn-warning" type="button">
+                                                            Add Folder
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="floatingInput" placeholder="Enter Folder Name"/>
+                                                <label for="floatingInput">Search Foolder</label>
+                                            </div>
+                                            <button class="btn btn-warning" data-bs-dismiss="offcanvas" type="button">
+                                                Save and Close
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div className="row">
                                         <div className="col">
                                             <p class="fs-6">Author: {indivPaper.author}</p>
@@ -152,7 +189,7 @@ const Search = () => {
                                     <div class="d-flex justify-content-start">{indivPaper.abstract}</div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn">
+                                    <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                                         <FontAwesomeIcon icon={faBookmark} style={{ marginRight: '5px', color: "#ffea00" }} />
                                         Bookmark Paper
                                     </button>
