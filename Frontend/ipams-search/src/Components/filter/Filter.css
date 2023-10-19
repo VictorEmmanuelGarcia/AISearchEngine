@@ -35,8 +35,23 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    max-height: 50px;
 }
 
 .apply-filters-button:hover {
     background-color: #357ae8;
+}
+
+.filter-group {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.filter-title {
+    color: #fff;
+}
+
+.year-inputs {
+    max-height: 50px;
 }
