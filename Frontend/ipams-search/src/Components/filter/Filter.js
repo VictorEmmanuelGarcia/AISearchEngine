@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import "./Filter.css";
 
 function Filter({ onFilterChange }) {
   const [selectedFields, setSelectedFields] = useState([]);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startYear, setStartYear] = useState('');
+  const [endYear, setEndYear] = useState('');
   const [selectedRecordTypes, setSelectedRecordTypes] = useState([]);
 
   const handleFieldOfStudyChange = (event) => {
@@ -11,12 +12,12 @@ function Filter({ onFilterChange }) {
     setSelectedFields(selectedFields);
   };
 
-  const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
+  const handleStartYearChange = (event) => {
+    setStartYear(event.target.value);
   };
 
-  const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
+  const handleEndYearChange = (event) => {
+    setEndYear(event.target.value);
   };
 
   const handleRecordTypeChange = (event) => {
@@ -27,27 +28,51 @@ function Filter({ onFilterChange }) {
   const applyFilters = () => {
     onFilterChange({
       selectedFields,
-      startDate,
-      endDate,
+      startYear,
+      endYear,
       selectedRecordTypes,
     });
   };
 
   return (
-    <div>
-      <label>Field of Study:</label>
-      <select multiple={true} onChange={handleFieldOfStudyChange}>
-        {/* Options for field of study */}
-      </select>
-      <label>Start Date:</label>
-      <input type="date" value={startDate} onChange={handleStartDateChange} />
-      <label>End Date:</label>
-      <input type="date" value={endDate} onChange={handleEndDateChange} />
-      <label>Record Type:</label>
-      <select multiple={true} onChange={handleRecordTypeChange}>
-        {/* Options for record type */}
-      </select>
-      <button onClick={applyFilters}>Apply Filters</button>
+    <div className="filter-container">
+        <label>Field of Study:</label>
+        <select className="select-dropdown" multiple={true} onChange={handleFieldOfStudyChange}>
+            {/* Options for field of study */}
+        </select>
+
+        <label>Start Date:</label>
+        <input
+            type="number"
+            className="year-input"
+            placeholder="Start Year"
+            value={startYear}
+            onChange={(e) => setStartYear(e.target.value)}
+            min="1900" // Minimum year
+            max="2099" // Maximum year
+            step="1"   // Step by 1 year
+        />
+
+        <span> - </span>
+        
+        <label>End Date:</label>
+        <input
+            type="number"
+            className="year-input"
+            placeholder="End Year"
+            value={endYear}
+            onChange={(e) => setEndYear(e.target.value)}
+            min="1900" // Minimum year
+            max="2099" // Maximum year
+            step="1"   // Step by 1 year
+        />
+
+        <label>Record Type:</label>
+        <select className="select-dropdown" multiple={true} onChange={handleRecordTypeChange}>
+            {/* Options for record type */}
+        </select>
+
+        <button className="apply-filters-button" onClick={applyFilters}>Apply Filters</button>
     </div>
   );
 }
