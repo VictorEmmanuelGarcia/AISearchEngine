@@ -144,10 +144,12 @@ const Search = () => {
                     <FontAwesomeIcon icon={faPaperPlane} />
                 </button>            
             </div>
-            <Filter
+            {chatHistory.length != 0 && (
+                <Filter
                 filters={filters}
                 onFilterChange={handleFilterChange}
-            />
+                />
+            )}
             {/* Chat container with chat history */}
             <div className="chat-container">
                 {chatHistory.map((message, index) => (
